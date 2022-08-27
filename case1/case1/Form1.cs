@@ -63,7 +63,11 @@ namespace case1
              */
             //panel1.Controls.Add(new Label() { Text=randomData,Name=Guid.NewGuid().ToString(),Location=new Point(0,panel1.Controls.Count*40) });
 
-            InsertSingleWord(randomData);
+            var successfullyAddedToDb=InsertSingleWord(randomData);
+            if (!successfullyAddedToDb)
+            {
+                StopTimer("Veritabanında Bir Hata Oluştu");
+            }
                 isOnProgress = false;
                 if (stopRequested)
                 {
@@ -73,12 +77,17 @@ namespace case1
            
         }
 
-        private void StopTimer()
+        private void StopTimer(string v="")
         {
+           
             timer1.Enabled = false;
             lblStatus.Text = "Stopped";
             txt_Input.Enabled = true;
             timer1.Stop();
+            if (v != "")
+            {
+                MessageBox.Show(v);
+            }
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -87,17 +96,25 @@ namespace case1
             stopRequested = true;
             
         }
-        public void InsertSingleWord(string randomData)
+        public bool InsertSingleWord(string randomData)
         {
-            using (SqlConnection connection = new SqlConnection(@"Server = localhost\SQLEXPRESS; Database = dinamik_yatirim_db; Trusted_Connection = True;"))
+            try
             {
-                string sqlQuery = string.Format("INSERT INTO Words (Text) VALUES('{0}')", randomData);
-                connection.Open();
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = sqlQuery;
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                using (SqlConnection connection = new SqlConnection(@"Server = localhost\SQLEXPRESS; Database = dinamik_yatirim_db; Trusted_Connection = True;"))
+                {
+                    string sqlQuery = string.Format("INSERT INTO Words (Text) VALUES('{0}')", randomData);
+                    connection.Open();
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandText = sqlQuery;
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
 
     }
