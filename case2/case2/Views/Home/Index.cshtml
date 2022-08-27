@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var jsonItems = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+
+<script>
+    var words = @Html.Raw(Json.Serialize(Model));
+</script>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table id="header">
+
+        <tr><th>Words</th><th><input type="text" id="filter" name="filter" /></th><th><button id="searchButton">Search</button></th>
+        <th><button id="SortByNameAsc">SortByNameAsc</button>| <button id="SortByNameDesc">SortByNameDesc</button>|<button id="SortByIdAsc">SortByIdAsc</button>|<button id="SortByIdDesc">SortByIdDesc</button></th>
+        </tr>
+        
+        
+    </table>
+    <table id="values">
+
+    </table>
+
+</div>
