@@ -25,6 +25,16 @@ namespace case1
                 bool isInteger = int.TryParse(txt_Input.Text, out inputInteger);
                 if (isInteger)
                 {
+                    if (inputInteger <= 0)
+                    {
+                        MessageBox.Show("Lütfen pozitif bir rakam giriniz.");
+                        return;
+                    }
+                    else if (inputInteger > 9)
+                    {
+                        MessageBox.Show("Lütfen bir rakam giriniz.");
+                        return;
+                    }
                     lblStatus.Text = "Working";
                     stopRequested = false;
                     timer1.Interval = 3000;
